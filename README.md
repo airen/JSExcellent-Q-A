@@ -1,7 +1,7 @@
 # JSExcellent-Q-A
 The Questions and answers from stackoverflow!
 
-#### [Get random item from JavaScript array](//stackoverflow.com/questions/5915096/get-random-item-from-javascript-array)
+### [Get random item from JavaScript array](//stackoverflow.com/questions/5915096/get-random-item-from-javascript-array)
 
 **Q:** 
 
@@ -13,7 +13,7 @@ How do I get random item form `items`?
 
     var item = items[Math.floor(Math.random() * items.length)];
 
-#### [Generate random number between two numbers in JavaScript](//stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript)
+### [Generate random number between two numbers in JavaScript](//stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript)
 
 **Q:**
 
@@ -36,7 +36,7 @@ What it does "extra" is it allows random intervals that do not start with `1`. S
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-#### [How to print a number with commas as thousands separators in JavaScript](//stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
+### [How to print a number with commas as thousands separators in JavaScript](//stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
 
 **Q:**
 
@@ -56,7 +56,7 @@ I am trying to print an integer in JavaScript with commas as thousands separator
         return parts.join(".");
     }
 
-#### [Generate random string/characters in JavaScript](//stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript)
+### [Generate random string/characters in JavaScript](//stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript)
 
 **Q:**
 
@@ -81,7 +81,7 @@ or:
 or: 
     Math.random().toString(36).substr(2, 5);
 
-#### [How to redirect to another webpage in JavaScript/jQuery?](//stackoverflow.com/questions/503093/how-to-redirect-to-another-webpage-in-javascript-jquery)
+### [How to redirect to another webpage in JavaScript/jQuery?](//stackoverflow.com/questions/503093/how-to-redirect-to-another-webpage-in-javascript-jquery)
 
 **Q:**
 
@@ -99,7 +99,7 @@ If you want to simulate an HTTP redirect, use `location.replace`.
     // similar behavior as clicking on a link
     window.location.href = "http://stackoverflow.com";
 
-#### [Safely turning a JSON string into an object](//stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object)
+### [Safely turning a JSON string into an object](//stackoverflow.com/questions/45015/safely-turning-a-json-string-into-an-object)
 
 **Q:**
 
@@ -111,7 +111,7 @@ Given a string of JSON data, how can you safely turn that string into a JavaScri
 
 Is a pure JavaScript approach so long as you can require a reasonably modern browser.
 
-#### [Object comparison in JavaScript](//stackoverflow.com/questions/1068834/object-comparison-in-javascript)
+### [Object comparison in JavaScript](//stackoverflow.com/questions/1068834/object-comparison-in-javascript)
 
 **Q:**
 
@@ -271,7 +271,7 @@ Known issues (well, they have very low priority, probably you'll never notice th
 
 Tests: passes tests are from [How to determine equality for two JavaScript objects?](//stackoverflow.com/a/16788517/139361).
 
-#### [How to randomize (shuffle) a JavaScript array?](//stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
+### [How to randomize (shuffle) a JavaScript array?](//stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
 
 **Q:**
 
@@ -313,7 +313,7 @@ You can see a [great visualization here](//bost.ocks.org/mike/shuffle/) (and the
 
 Some more info [about the algorithm](//en.wikipedia.org/wiki/Fisher-Yates_shuffle) used.
 
-#### [Create a JavaScript array containing 1…N](//stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n)
+### [Create a JavaScript array containing 1…N](//stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n)
 
 **Q:**
 
