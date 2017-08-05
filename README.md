@@ -3,7 +3,7 @@ The Questions and answers from stackoverflow!
 
 ## Random
 
-- Get random item from JavaScript array [Link](//stackoverflow.com/questions/5915096/get-random-item-from-javascript-array)
+#### [Get random item from JavaScript array](//stackoverflow.com/questions/5915096/get-random-item-from-javascript-array)
 
 **Q:** How do I get random item form `items`?
 
