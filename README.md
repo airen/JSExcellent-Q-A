@@ -401,3 +401,58 @@ In ES6 you can do:
     Array(N).fill().map((e,i)=>i+1);
 
 > Changed `Array(45)` to `Array(N)` since you've updated the question.
+
+### [Javascript add leading zeroes to date](https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date)
+
+**Q:**
+
+I've created this script to calculate the data for `10` days in advance in the formate of `dd/mm/yyyy`:
+
+    var MyDate = new Date();
+    var MyDateString = new Date();
+    MyDate.setDate(MyDate.getDate() + 10);
+    MyDateString = MyDate.getDate() + '/' + (MyDate.getMonth() + 1) + '/' + MyDate.getFullYear();
+
+I need to have the date appear with leading zeroes on the day and month component by way of adding these rules to the script. I can't seem to get it to work.
+
+    if (MyDate.getMonth > 10) getMonth = '0' + getMonth;
+
+and
+
+    if (MyDate.getDate < 10) get.Date = '0' + getDate;
+
+If someone could show me where to insert these into the script I would be really appreciative.
+
+**A:**
+
+[Try this](//jsfiddle.net/xA5B7/):
+
+    var MyDate = new Date();
+    var MyDateString;
+
+    MyDate.setDate(MyDate.getDate() + 20);
+    MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '/' + MyDate.getFullYear();
+
+**EDIT:**
+
+To explain, `.slice(-2)` gives us the last two characters of the string.
+
+So no matter what, we can add `"0"` to the day or month, and just ask for the last two since those are always the two we want.
+
+So if the `MyDate.getMonth()` returns `9`, it will be:
+
+    ("0" + "9") // Giving us "09"
+
+so adding `.slice(-2)` on that gives us the last two characters which is:
+
+    ("0" + "9").slice(-2);
+    // "09"
+
+But if `MyDate.getMonth()` returns `10`, it will be:
+
+    ("0" + "10") // Giving us "010"
+
+so adding `.slice(-2)` gives us the last two characters, or:
+
+    ("0" + "10").slice(-2)
+    // "10"
