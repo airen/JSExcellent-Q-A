@@ -662,3 +662,125 @@ ES6 has a native object `Set` to store unique values. To get an array with uniqu
     // unique is ['a', 1, 2, '1']
 
 The constructor of `Set` takes an iterable object, like Array, and the spread operator `...` transform the set back into an Array. Thanks to Lukas Liese for hint in comment.
+
+### [RGB to Hex and Hex to RGB](//stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb)
+
+**Q:**
+
+How to convert colors in RGB format to Hex format and vice versa? For example, convert `'#0080C0'` to `(0, 128, 192)`.
+
+**A:**
+
+The following will do to the RGB to hex conversion and add any required zero padding:
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
+    alert( rgbToHex(0, 51, 255) ); // #0033ff
+
+Converting the other way:
+
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    alert( hexToRgb("#0033ff").g ); // "51";
+
+Finally, an alternative version of `rgbToHex()`, as discussed in @casablanca's answer and suggested in the comments by @cwolves:
+
+    function rgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
+**Update 3 December 2012:**
+
+Here's a version of `hexToRgb()` that also parses a shorthand hex triplet such as `"#03F"`:
+
+    function hexToRgb(hex) {
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    alert( hexToRgb("#0033ff").g ); // "51";
+    alert( hexToRgb("#03f").g ); // "51";
+
+### [Javascript reduce on array of objects](//stackoverflow.com/questions/5732043/javascript-reduce-on-array-of-objects)
+
+**Q:**
+
+Say I want to sum `a.x` for each element in `arr`.
+
+    arr = [{x:1},{x:2},{x:4}]
+    arr.reduce(function(a,b){return a.x + b.x})
+    >> NaN
+
+I have cause to believe that `a.x` is `undefined` at some point.
+
+The following works fine
+
+    arr = [1,2,4]
+    arr.reduce(function(a,b){return a + b})
+    >> 7
+
+What am I doing wrong in the first example?
+
+**A:**
+
+After the first iteration your're returning a number and then trying to get property `x` of it to add to the next object which is `undefined` and maths involving `undefined` results in `NaN`.
+
+try returning an object contain an `x` property with the sum of the x properties of the parameters:
+
+    var arr = [{x:1},{x:2},{x:4}];
+
+    arr.reduce(function (a, b) {
+    return {x: a.x + b.x}; // returns object with property x
+    })
+
+    // ES6
+    arr.reduce((a, b) => ({x: a.x + b.x}));
+
+    // -> {x: 7}
+
+Explanation added from comments:
+
+The return value of each iteration of `[].reduce` used as the a variable in the next iteration.
+
+Iteration 1: `a = {x:1}`, `b = {x:2}`, `{x: 3}` assigned to `a` in Iteration 2
+
+Iteration 2: `a = {x:3}`, `b = {x:4}`.
+
+The problem with your example is that you're returning a number literal.
+
+    function (a, b) {
+    return a.x + b.x; // returns number literal
+    }
+
+Iteration 1: `a = {x:1}`, `b = {x:2}`, `// returns 3` as `a` in next iteration
+
+Iteration 2: `a = 3`, `b = {x:2}` returns `NaN`
+
+A number literal `3` does not (typically) have a property called `x` so it's `undefined` and  `undefined + b.x` returns `NaN` and `NaN + <anything>` is always `NaN`
+
+> Clarification: I prefer my method over the other top answer in this thread as I disagree with the idea that passing an option parameter to reduce with a magic number to get out a number primitive is cleaner. It may result in fewer lines written but imo it is less readable.
+
