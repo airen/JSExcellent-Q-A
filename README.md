@@ -456,3 +456,209 @@ so adding `.slice(-2)` gives us the last two characters, or:
 
     ("0" + "10").slice(-2)
     // "10"
+
+### [Why does parseInt(1/0, 19) return 18?](//stackoverflow.com/questions/11340673/why-does-parseint1-0-19-return-18)
+
+**Q:**
+
+I've an annoying problem in JavaScript.
+
+    > parseInt(1 / 0, 19)
+    > 18
+
+Why does `parseInt` return `18`?
+
+**A:**
+
+The result of `1/0` is [`Infinity`](//developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Infinity).
+
+[`parseInt`](//developer.mozilla.org/en/JavaScript/Reference/Global_Objects/parseInt) treats its first argument as a string which means first of all `Infinity.toString()` is called, producing the string `"Infinity"`. So it works the same as if you asked it to convert `"Infinity"` in base `19` to decimal.
+
+Here are the digits in base `19` along with their decimal values:
+
+    Base 19   Base 10 (decimal)
+    ---------------------------
+    0            0
+    1            1
+    2            2
+    3            3
+    4            4
+    5            5
+    6            6
+    7            7
+    8            8
+    9            9
+    a            10
+    b            11
+    c            12
+    d            13
+    e            14
+    f            15
+    g            16
+    h            17
+    i            18
+
+What happens next is that `parseInt` scans the input `"Infinity"` to find which part of it can be parsed and stops after accepting the first `I` (because `n` is not a valid digit in base `19`).
+
+Therefore it behaves as if you called `parseInt("I", 19)`, which converts to decimal `18` by the table above.
+
+### [Is object empty?](//stackoverflow.com/questions/4994201/is-object-empty)
+
+**Q:**
+
+What is the fastest way to check if an object is empty or not?
+
+Is there a faster and better way than this:
+
+    function count_obj(obj){
+        var i = 0;
+        for(var key in obj){
+            ++i;
+        }
+
+        return i;
+    }
+
+**A:**
+
+I'm assuming that by empty you mean "has no properties of its own".
+
+    // Speed up calls to hasOwnProperty
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+    function isEmpty(obj) {
+
+        // null and undefined are "empty"
+        if (obj == null) return true;
+
+        // Assume if it has a length property with a non-zero value
+        // that that property is correct.
+        if (obj.length > 0)    return false;
+        if (obj.length === 0)  return true;
+
+        // If it isn't an object at this point
+        // it is empty, but it can't be anything *but* empty
+        // Is it empty?  Depends on your application.
+        if (typeof obj !== "object") return true;
+
+        // Otherwise, does it have any properties of its own?
+        // Note that this doesn't handle
+        // toString and valueOf enumeration bugs in IE < 9
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
+        }
+
+        return true;
+    }
+
+Examples:
+
+    isEmpty(""), // true
+    isEmpty(33), // true (arguably could be a TypeError)
+    isEmpty([]), // true
+    isEmpty({}), // true
+    isEmpty({length: 0, custom_property: []}), // true
+
+    isEmpty("Hello"), // false
+    isEmpty([1,2,3]), // false
+    isEmpty({test: 1}), // false
+    isEmpty({length: 3, custom_property: [1,2,3]}) // false
+
+If you only need to handle ECMAScript5 browsers, you can use `Object.getOwnPropertyNames` instead of the `hasOwnProperty` loop:
+
+    if (Object.getOwnPropertyNames(obj).length > 0) return false;
+
+This will ensure that even if the object only has non-enumerable properties `isEmpty` will still give you the correct results.
+
+[ECMA 5+:](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Browser_compatibility)
+
+    // because Object.keys(new Date()).length === 0;
+    // we have to do some additional check
+    Object.keys(obj).length === 0 && obj.constructor === Object
+
+Pre-ECMA 5:
+
+    function isEmpty(obj) {
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return JSON.stringify(obj) === JSON.stringify({});
+    }
+
+There's no easy way to do this. You'll have to loop over the properties explicitly:
+
+    function isEmpty(obj) {
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return true;
+    }
+
+If [ECMAScript 5 support](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Browser_compatibility) is available, you can use `Object.keys()` instead:
+
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+
+### [Unique values in an array](//stackoverflow.com/questions/1960473/unique-values-in-an-array)
+
+**Q:**
+
+I have an array of numbers that I need to make sure are unique. I found the code snippet below on the internet and it works great until the array has a zero in it. I found [this other script](//stackoverflow.com/questions/1890203/unique-for-arrays-in-javascript) here on SO that looks almost exactly like it, but it doesn't fail.
+
+So for the sake of helping me learn, can someone help me determine where the prototype script is going wrong?
+
+    Array.prototype.getUnique = function() {
+        var o = {}, a = [], i, e;
+        for (i = 0; e = this[i]; i++) {o[e] = 1};
+        for (e in o) {a.push (e)};
+        return a;
+    }
+
+**A:**
+
+With JavaScript 1.6 / ECMAScript 5 you can use the native `filter` method of an Array in the following way to get an array with unique values:
+
+    function onlyUnique(value, index, self) { 
+        return self.indexOf(value) === index;
+    }
+
+    // usage example:
+    var a = ['a', 1, 'a', 2, '1'];
+    var unique = a.filter( onlyUnique ); // returns ['a', 1, 2, '1']
+
+The native method `filter` will loop through the array and leave only those entries that pass the given callback function `onlyUnique`.
+
+`onlyUnique` checks, if the given value is the first occurring. If not, it must be a duplicate and will not be copied.
+
+This solution works without any extra library like jQuery or prototype.js.
+
+It works for arrays with mixed value types too.
+
+For old Browsers (`<ie9`), that do not support the native methods `filter` and `indexOf` you can find work arounds in the MDN documentation for `filter` and `indexOf`.
+
+If you want to keep the last occurrence of a value, simple replace `indexOf` by `lastIndexOf`.
+
+With ES6 it could be shorten to this:
+
+    // usage example:
+    var myArray = ['a', 1, 'a', 2, '1'];
+    var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
+
+    // unique is ['a', 1, 2, '1']
+
+Thanks to [Camilo Martin](//stackoverflow.com/users/124119/camilo-martin) for hint in comment.
+
+ES6 has a native object `Set` to store unique values. To get an array with unique values you could do now this:
+
+    var myArray = ['a', 1, 'a', 2, '1'];
+
+    let unique = [...new Set(myArray)]; 
+
+    // unique is ['a', 1, 2, '1']
+
+The constructor of `Set` takes an iterable object, like Array, and the spread operator `...` transform the set back into an Array. Thanks to Lukas Liese for hint in comment.
