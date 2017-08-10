@@ -1078,3 +1078,37 @@ All of these are subject to one potential problem, and that is the question of h
 While not all permutations are present in this set of examples, hopefully there are enough to provide you with an idea about how messy things might get depending on your needs. Don't assume anything, if you don't understand exactly what you are after, you may end up with code breaking where you don't expect it to because of a lack of grokking the subtleties.
 
 > **NOTE:**Discussion of the `typeof` operator may appear to be a glaring omission, but it really isn't useful in helping to identify whether an `object` is a given type, since it is very simplistic. Understanding where `typeof` is useful is important, but I don't currently feel that it is terribly relevant to this discussion. My mind is open to change though. :)
+
+### [Static variables in JavaScript](//stackoverflow.com/questions/1535631/static-variables-in-javascript)
+
+**Q:**
+
+How can I create static variables in Javascript?
+
+**A:**
+
+If you come from a class-based, strongly typed object-oriented language (like Java, C++ or C#) I assume that you are trying to create a variable or method associated to a "type" but not to an instance.
+
+An example using a "classical" approach, with constructor functions maybe could help you to catch the concepts of basic OO JavaScript:
+
+    function MyClass () { // constructor function
+    var privateVariable = "foo";  // Private variable 
+
+    this.publicVariable = "bar";  // Public variable 
+
+    this.privilegedMethod = function () {  // Public Method
+        alert(privateVariable);
+    };
+    }
+
+    // Instance method will be available to all instances but only load once in memory 
+    MyClass.prototype.publicMethod = function () {    
+    alert(this.publicVariable);
+    };
+
+    // Static variable shared by all instances
+    MyClass.staticProperty = "baz";
+
+    var myInstance = new MyClass();
+
+`staticProperty` is defined in the `MyClass` object (which is a function) and has nothing to do with its created instances, JavaScript treats functions as [first-class objects](//en.wikipedia.org/wiki/First-class_function), so being an object, you can assign properties to a function.
