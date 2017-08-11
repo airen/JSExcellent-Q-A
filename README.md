@@ -76,9 +76,11 @@ I want a 5 character string composed of characters picked randomly from the set 
     }
 
 or:
+
     Math.random().toString(36).substring(7);
 
-or: 
+or:
+ 
     Math.random().toString(36).substr(2, 5);
 
 ### [How to redirect to another webpage in JavaScript/jQuery?](//stackoverflow.com/questions/503093/how-to-redirect-to-another-webpage-in-javascript-jquery)
