@@ -3,7 +3,7 @@ The Questions and answers from stackoverflow!
 
 ### [Get random item from JavaScript array](//stackoverflow.com/questions/5915096/get-random-item-from-javascript-array)
 
-**Q:** 
+**Q:**
 
 How do I get random item form `items`?
 
@@ -23,7 +23,7 @@ Is there a way to generate a random number in a specified range (e.g. from `1` t
 
 If you wanted to get between `1` and `6`, you would calculate:
 
-    Math.floor(Math.random() * 6) + 1  
+    Math.floor(Math.random() * 6) + 1
 
 Where:
 
@@ -72,7 +72,6 @@ I want a 5 character string composed of characters picked randomly from the set 
             text += possible.charAt(Math.floor(Math.random() * possible.length));
 
             return text;
-        }
     }
 
 or:
@@ -80,7 +79,7 @@ or:
     Math.random().toString(36).substring(7);
 
 or:
- 
+
     Math.random().toString(36).substr(2, 5);
 
 ### [How to redirect to another webpage in JavaScript/jQuery?](//stackoverflow.com/questions/503093/how-to-redirect-to-another-webpage-in-javascript-jquery)
@@ -138,7 +137,7 @@ So the best I can do is to guess usage scenarios.
 
 Works when you have simple JSON-style objects without methods and DOM nodes inside:
 
-    JSON.stringify(obj1) === JSON.stringify(obj2) 
+    JSON.stringify(obj1) === JSON.stringify(obj2)
 
 The ORDER of the properties IS IMPORTANT, so this method will return false for following objects:
 
@@ -163,7 +162,7 @@ This is almost correct algorithm:
                 return true;
             }
 
-            // Compare primitives and functions.     
+            // Compare primitives and functions.
             // Check if both arguments link to the same object.
             // Especially useful on the step where we compare prototypes
             if (x === y) {
@@ -333,7 +332,7 @@ To me it feels like there should be a way of doing this without the loop.
 
 You can do so:
 
-    var N = 10; 
+    var N = 10;
     Array.apply(null, {length: N}).map(Number.call, Number)
 
 > result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -625,7 +624,7 @@ So for the sake of helping me learn, can someone help me determine where the pro
 
 With JavaScript 1.6 / ECMAScript 5 you can use the native `filter` method of an Array in the following way to get an array with unique values:
 
-    function onlyUnique(value, index, self) { 
+    function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
     }
 
@@ -649,7 +648,7 @@ With ES6 it could be shorten to this:
 
     // usage example:
     var myArray = ['a', 1, 'a', 2, '1'];
-    var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
+    var unique = myArray.filter((v, i, a) => a.indexOf(v) === i);
 
     // unique is ['a', 1, 2, '1']
 
@@ -659,7 +658,7 @@ ES6 has a native object `Set` to store unique values. To get an array with uniqu
 
     var myArray = ['a', 1, 'a', 2, '1'];
 
-    let unique = [...new Set(myArray)]; 
+    let unique = [...new Set(myArray)];
 
     // unique is ['a', 1, 2, '1']
 
@@ -883,7 +882,7 @@ But here are various hacks that all fall down in one way or another:
 
 Here is a hack that will do what you need - be aware that it modifies the Object's prototype, something people frown upon (usually for good reason)
 
-    Object.prototype.getName = function() { 
+    Object.prototype.getName = function() {
         var funcNameRegex = /function (.{1,})\(/;
         var results = (funcNameRegex).exec((this).constructor.toString());
         return (results && results.length > 1) ? results[1] : "";
@@ -1094,17 +1093,17 @@ If you come from a class-based, strongly typed object-oriented language (like Ja
 An example using a "classical" approach, with constructor functions maybe could help you to catch the concepts of basic OO JavaScript:
 
     function MyClass () { // constructor function
-    var privateVariable = "foo";  // Private variable 
+    var privateVariable = "foo";  // Private variable
 
-    this.publicVariable = "bar";  // Public variable 
+    this.publicVariable = "bar";  // Public variable
 
     this.privilegedMethod = function () {  // Public Method
         alert(privateVariable);
     };
     }
 
-    // Instance method will be available to all instances but only load once in memory 
-    MyClass.prototype.publicMethod = function () {    
+    // Instance method will be available to all instances but only load once in memory
+    MyClass.prototype.publicMethod = function () {
     alert(this.publicVariable);
     };
 
