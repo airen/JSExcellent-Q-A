@@ -1113,3 +1113,94 @@ An example using a "classical" approach, with constructor functions maybe could 
     var myInstance = new MyClass();
 
 `staticProperty` is defined in the `MyClass` object (which is a function) and has nothing to do with its created instances, JavaScript treats functions as [first-class objects](//en.wikipedia.org/wiki/First-class_function), so being an object, you can assign properties to a function.
+
+### [How to find the sum of an array of numbers](//stackoverflow.com/questions/1230233/how-to-find-the-sum-of-an-array-of-numbers)
+
+**Q:**
+
+Given an array `[1, 2, 3, 4]`, how can I find the sum of its elements? (In this case, the sum would be `10`.)
+
+I thought [`$.each`](//api.jquery.com/jquery.each/) might be useful, but I'm not sure how to implement it.
+
+**A:**
+
+In [Lisp](//en.wikipedia.org/wiki/Lisp_%28programming_language%29), this'd be exactly the job for reduce. You'd see this kind of code:
+
+    (reduce #'+ '(1 2 3)) ; 6
+
+Fortunately, in JavaScript, we also have [`reduce`](//developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/Reduce)! Unfortunately, `+` is an operator, not a function. But we can make it pretty! Here, look:
+
+    var sum = [1, 2, 3].reduce(add, 0);
+
+    function add(a, b) {
+        return a + b;
+    }
+
+    console.log(sum); // 6
+
+Isn't that pretty? :-)
+
+Even better! If you're using ECMAScript 2015 (aka [ECMAScript 6](//en.wikipedia.org/wiki/ECMAScript#Harmony.2C_6th_Edition)), it can be this pretty:
+
+    var sum = [1, 2, 3].reduce((a, b) => a + b, 0);
+    console.log(sum); // 6
+
+### [How do I remove a property from a JavaScript object?](//stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object)
+
+**Q:**
+
+Say I create an object as follows:
+
+    var myObject = {
+        "ircEvent": "PRIVMSG",
+        "method": "newURI",
+        "regex": "^http://.*"
+    };
+
+What is the best way to remove the property `regex` to end up with new `myObject` as follows?
+
+    var myObject = {
+        "ircEvent": "PRIVMSG",
+        "method": "newURI"
+    };
+
+**A:**
+
+Like this:
+
+    delete myObject.regex;
+    // or,
+    delete myObject['regex'];
+    // or,
+    var prop = "regex";
+    delete myObject[prop];
+
+For anyone interested in reading more about it, Stack Overflow user [kangax](//stackoverflow.com/users/130652/kangax) has written an incredibly in-depth blog post about the `delete` statement on their blog, [Understanding `delete`](//perfectionkills.com/understanding-delete/). It is highly recommended.
+
+### [How can I get last characters of a string using JavaScript](//stackoverflow.com/questions/5873810/how-can-i-get-last-characters-of-a-string-using-javascript)
+
+**Q:**
+
+I have
+
+    var id="ctl03_Tabs1";
+
+Using JavaScript, how might I get the last five characters or last character?
+
+**A:**
+
+You'll want to use the Javascript string method `.substr()` combined with the `.length` property.
+
+    var id = "ctl03_Tabs1";
+    var lastFive = id.substr(id.length - 5); // => "Tabs1"
+    var lastChar = id.substr(id.length - 1); // => "1"
+
+This gets the characters starting at `id.length - 5` and, since the second argument for `.substr()` is omitted, continues to the end of the string.
+
+You can also use the `.slice()` method as others have pointed out below.
+
+If you're simply looking to find the characters after the underscore, you could use this:
+
+    var tabId = id.split("_").pop(); // => "Tabs1"
+
+This splits the string into an array on the underscore and then "pops" the last element off the array (which is the string you want).
