@@ -112,6 +112,25 @@ Given a string of JSON data, how can you safely turn that string into a JavaScri
 
 Is a pure JavaScript approach so long as you can require a reasonably modern browser.
 
+### [Convert JS object to JSON string](//stackoverflow.com/questions/4162749/convert-js-object-to-json-string)
+
+**Q:**
+
+If I defined an object in JS with:
+
+    var j={"name":"binchen"};
+
+How can I convert the object to JSON? The output string should be:
+
+    '{"name":"binchen"}'
+
+**A:**
+
+All current browsers have native JSON support built in. So as long as you're not dealing with prehistoric browsers like IE6/7 you can do it just as easily as that:
+
+    var j={"name":"binchen"};
+    JSON.stringify(j); // '{"name":"binchen"}'
+
 ### [Object comparison in JavaScript](//stackoverflow.com/questions/1068834/object-comparison-in-javascript)
 
 **Q:**
