@@ -1223,3 +1223,395 @@ If you're simply looking to find the characters after the underscore, you could 
     var tabId = id.split("_").pop(); // => "Tabs1"
 
 This splits the string into an array on the underscore and then "pops" the last element off the array (which is the string you want).
+
+### [Detecting a mobile browser](//stackoverflow.com/questions/11381673/detecting-a-mobile-browser)
+
+**Q:**
+
+I'm looking for a function which return boolean value if user has mobile browser or not.
+
+I know that I can use `navigator.userAgent` and write that function by using regex, but user-agents are too various for different platforms. I doubt that match all possible devices would be easy, and I think this problem has been solved before many times so there should be some kind of complete solution for such task.
+
+I was looking at [this site](//detectmobilebrowsers.com/), but sadly the script is so cryptic that I have no idea how to use it for my purpose, which is to create a function which return true / false.
+
+**A:**
+
+**Using Regex (from [detectmobilebrowsers.com](//detectmobilebrowsers.com/)):**
+
+Here's a function that uses an insanely long and comprehensive regex which returns a true or false value depending on whether or not the user is browsing with a mobile.
+
+    window.mobilecheck = function() {
+        var check = false;
+        (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+        return check;
+    };
+
+For those wishing to include tablets in this test (though arguably, you shouldn't), you can use the following function:
+
+    window.mobileAndTabletcheck = function() {
+        var check = false;
+        (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+        return check;
+    };
+
+**The Original Answer**
+
+You can do this by simply running through a list of devices and checking if the useragent matches anything like so:
+
+    function detectmob() { 
+        if( navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)
+        ){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+However since you believe that this method is unreliable, You could assume that any device that had a resolution of`800x600` or less was a mobile device too, narrowing your target even more (although these days many mobile devices have much greater resolutions than this)
+
+i.e
+
+    function detectmob() {
+        if(window.innerWidth <= 800 && window.innerHeight <= 600) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+**Reference:**
+
+- [Detecting Browser and Devices with javascript](//www.quirksmode.org/js/detect.html)
+
+### [How do I check if an object has a property in JavaScript?](//stackoverflow.com/questions/135448/how-do-i-check-if-an-object-has-a-property-in-javascript)
+
+**Q:**
+
+How do I check if an object has a property in JavaScript?
+
+Consider:
+
+    x = {'key': 1};
+    if ( x.hasOwnProperty('key') ) {
+        //Do this
+    }
+
+Is that the best way to do it?
+
+**A:**
+
+I'm really confused by the answers that have been given - most of them are just outright incorrect. Of course you can have object properties that have `undefined`, `null`, or `false` values. So simply reducing the property check to typeof `this[property]` or, even worse, `x.key` will give you completely misleading results.
+
+It depends on what you're looking for. If you want to know if an object physically contains a property (and it is not coming from somewhere up on the prototype chain) then `object.hasOwnProperty` is the way to go. All modern browsers support it. (It was missing in older versions of Safari - 2.0.1 and older - but those versions of the browser are rarely used any more.)
+
+If what you're looking for is if an object has a property on it that is iterable (when you iterate over the properties of the object, it will appear) then doing: `prop in object` will give you your desired effect.
+
+Since using `hasOwnProperty` is probably what you want, and considering that you may want a fallback method, I present to you the following solution:
+
+    var obj = {
+        a: undefined,
+        b: null,
+        c: false
+    };
+
+    // a, b, c all found
+    for ( var prop in obj ) {
+        document.writeln( "Object1: " + prop );
+    }
+
+    function Class(){
+        this.a = undefined;
+        this.b = null;
+        this.c = false;
+    }
+
+    Class.prototype = {
+        a: undefined,
+        b: true,
+        c: true,
+        d: true,
+        e: true
+    };
+
+    var obj2 = new Class();
+
+    // a, b, c, d, e found
+    for ( var prop in obj2 ) {
+        document.writeln( "Object2: " + prop );
+    }
+
+    function hasOwnProperty(obj, prop) {
+        var proto = obj.__proto__ || obj.constructor.prototype;
+        return (prop in obj) &&
+            (!(prop in proto) || proto[prop] !== obj[prop]);
+    }
+
+    if ( Object.prototype.hasOwnProperty ) {
+        var hasOwnProperty = function(obj, prop) {
+            return obj.hasOwnProperty(prop);
+        }
+    }
+
+    // a, b, c found in modern browsers
+    // b, c found in Safari 2.0.1 and older
+    for ( var prop in obj2 ) {
+        if ( hasOwnProperty(obj2, prop) ) {
+            document.writeln( "Object2 w/ hasOwn: " + prop );
+        }
+    }
+
+The above is a working, cross-browser, solution to `hasOwnProperty`, with one caveat: It is unable to distinguish between cases where an identical property is on the prototype and on the instance - it just assumes that it's coming from the prototype. You could shift it to be more lenient or strict, based upon your situation, but at the very least this should be more helpful.
+
+### [Set a default parameter value for a JavaScript function](//stackoverflow.com/questions/894860/set-a-default-parameter-value-for-a-javascript-function)
+
+**Q:**
+
+I would like a JavaScript function to have optional arguments which I set a default on, which gets used if the value isn't defined. In Ruby you can do it like this:
+
+    def read_file(file, delete_after = false)
+        # code
+    end
+
+Does this work in JavaScript?
+
+    function read_file(file, delete_after = false) {
+        // Code
+    }
+
+**A:**
+
+From ES6/ES2015, default parameters is in the language specification.
+
+    function read_file(file, delete_after = false) {
+        // Code
+    }
+
+just works.
+
+Reference: [Default Parameters - MDN](//developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/default_parameters)
+
+> Default function parameters allow formal parameters to be initialized with default values if no value or `undefined` is passed.
+
+You can also [simulate default named parameters via destructuring](//exploringjs.com/es6/ch_parameter-handling.html#sec_named-parameters):
+
+    // the `= {}` below lets you call the function without any parameters
+    function myFor({ start = 5, end = 1, step = -1 } = {}) { // (A)
+        // Use the variables `start`, `end` and `step` here
+        ···
+    }
+
+**Pre ES2015,**
+
+There are a lot of ways, but this is my preferred method - it lets you pass in anything you want, including `false` or `null`. (`typeof null == "object"`)
+
+    function foo(a, b){
+        a = typeof a !== 'undefined' ? a : 42;
+        b = typeof b !== 'undefined' ? b : 'default_b';
+        ...
+    }
+
+### [Trim string in JavaScript?](//stackoverflow.com/questions/498970/trim-string-in-javascript)
+
+**Q:**
+
+How do I trim a string in JavaScript?
+
+**A:**
+
+Since new Browsers (IE9+) have `trim()` already implemented, you should only implement `trim()` if it is not already available on the Prototype-Object (overriding it is a huge performance hit). This is generally recommended when extending Native Objects! Note that the added property is enumerable unless you use ES5 `Object.defineProperty`!
+
+For those browsers who does not support `trim()`, you can use this polyfill from [MDN](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim):
+
+    if (!String.prototype.trim) {
+        (function() {
+            // Make sure we trim BOM and NBSP
+            var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+            String.prototype.trim = function() {
+                return this.replace(rtrim, '');
+            };
+        })();
+    }
+
+See this:
+
+    String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g, '');};
+
+    String.prototype.ltrim=function(){return this.replace(/^\s+/,'');};
+
+    String.prototype.rtrim=function(){return this.replace(/\s+$/,'');};
+
+    String.prototype.fulltrim=function(){return this.replace(/(?:(?:^|\n)\s+|\s+(?:$|\n))/g,'').replace(/\s+/g,' ');};
+
+### [Sorting an array of JavaScript objects](//stackoverflow.com/questions/979256/sorting-an-array-of-javascript-objects)
+
+**Q:**
+
+I read the following objects using Ajax and stored them in an array:
+
+    var homes = [
+        {
+            "h_id": "3",
+            "city": "Dallas",
+            "state": "TX",
+            "zip": "75201",
+            "price": "162500"
+        }, {
+            "h_id": "4",
+            "city": "Bevery Hills",
+            "state": "CA",
+            "zip": "90210",
+            "price": "319250"
+        }, {
+            "h_id": "5",
+            "city": "New York",
+            "state": "NY",
+            "zip": "00010",
+            "price": "962500"
+        }
+    ];
+
+How do I create a function to sort the objects by the `price` property in ascending or descending order using only JavaScript?
+
+**Q:**
+
+Sort `homes` by `price` in ascending order:
+
+    homes.sort(function(a, b) {
+        return parseFloat(a.price) - parseFloat(b.price);
+    });
+
+Some documentation can be found [here](//developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/sort).
+
+### [How to get all properties values of a Javascript Object (without knowing the keys)?](//stackoverflow.com/questions/7306669/how-to-get-all-properties-values-of-a-javascript-object-without-knowing-the-key)
+
+**Q:**
+
+If there is an Javascript object:
+
+    var objects={...};
+
+Suppose, it has more than `50` properties, without knowing the property names (that's without knowing the `keys`) how to get each property value in a loop?
+
+**A:**
+
+Depending on which browsers you have to support, this can be done in a number of ways. The overwhelming majority of browsers in the wild support ECMAScript 5 (ES5), but be warned that many of the examples below use `Object.keys`, which is not available in `IE < 9`. See the [compatibility table](//kangax.github.io/compat-table/es5/).
+
+**ECMAScript 3+**
+
+If you have to support older versions of IE, then this is the option for you:
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            var val = obj[key];
+            // use val
+        }
+    }
+
+The nested `if` makes sure that you don't enumerate over properties in the prototype chain of the object (which is the behaviour you almost certainly want). You must use
+
+    Object.prototype.hasOwnProperty.call(obj, key) // ok
+
+rather than
+
+    obj.hasOwnProperty(key) // bad
+
+because ECMAScript 5+ allows you to create prototypeless objects with `Object.create(null)`, and these objects will not have the `hasOwnProperty` method. Naughty code might also produce objects which override the `hasOwnProperty` method.
+
+**ECMAScript 5+**
+
+You can use these methods in any browser that supports ECMAScript 5 and above. These get values from an object and avoid enumerating over the prototype chain. Where `obj` is your object:
+
+    var keys = Object.keys(obj);
+
+    for (var i = 0; i < keys.length; i++) {
+        var val = obj[keys[i]];
+        // use val
+    }
+
+If you want something a little more compact or you want to be careful with functions in loops, then `Array.prototype.forEach` is your friend:
+
+    Object.keys(obj).forEach(function (key) {
+        var val = obj[key];
+        // use val
+    });
+
+The next method builds an array containing the values of an object. This is convenient for looping over.
+
+    var vals = Object.keys(obj).map(function (key) {
+        return obj[key];
+    });
+
+    // use vals array
+
+If you want to make those using `Object.keys` safe against `null` (as `for-in` is), then you can do `Object.keys(obj || {})...`.
+
+`Object.keys` returns enumerable properties. For iterating over simple objects, this is usually sufficient. If you have something with non-enumerable properties that you need to work with, you may use `Object.getOwnPropertyNames` in place of `Object.keys`.
+
+**ECMAScript 2015+ (A.K.A. ES6)**
+
+Arrays are easier to iterate with ECMAScript 2015. You can use this to your advantage when working with values one-by–one in a loop:
+
+    for (const key of Object.keys(obj)) {
+        const val = obj[key];
+        // use val
+    }
+
+Using ECMAScript 2015 fat-arrow functions, mapping the object to an array of values becomes a one-liner:
+
+    const vals = Object.keys(obj).map(key => obj[key]);
+
+    // use vals array
+
+ECMAScript 2015 introduces `Symbol`, instances of which may be used as property names. To get the symbols of an object to enumerate over, use `Object.getOwnPropertySymbols` (this function is why `Symbol` can't be used to make private properties). The new `Reflect` API from ECMAScript 2015 provides `Reflect.ownKeys`, which returns a list of property names (including non-enumerable ones) and symbols.
+
+**Array comprehensions (do not attempt to use)**
+
+Array comprehensions were removed from ECMAScript 6 before publication. Prior to their removal, a solution would have looked like:
+
+    const vals = [for (key of Object.keys(obj)) obj[key]];
+
+    // use vals array
+
+**ECMAScript 2017+**
+
+ECMAScript 2016 adds features which do not impact this subject. The ECMAScript 2017 specification adds `Object.values` and `Object.entries`. Both return arrays (which will be surprising to some given the analogy with `Array.entries`). `Object.values` can be used as is or with a `for-of` loop.
+
+    const values = Object.values(obj);
+
+    // use values array or:
+
+    for (const val of Object.values(obj)) {
+        // use val
+    }
+
+If you want to use both the key and the value, then `Object.entries` is for you. It produces an array filled with `[key, value]` pairs. You can use this as is, or (note also the ECMAScript 2015 destructuring assignment) in a `for-of` loop:
+
+    for (const [key, val] of Object.entries(obj)) {
+        // use key and val
+    }
+
+**`Object.values` shim**
+
+Finally, as noted in the comments and by teh_senaus in another answer, it may be worth using one of these as a shim. Don't worry, the following does not change the prototype, it just adds a method to `Object` (which is much less dangerous). Using fat-arrow functions, this can be done in one line too:
+
+    Object.values = obj => Object.keys(obj).map(key => obj[key]);
+
+which you can now use like
+
+    // ['one', 'two', 'three']
+    var values = Object.values({ a: 'one', b: 'two', c: 'three' });
+
+If you want to avoid shimming when a native `Object.values` exists, then you can do:
+
+    Object.values = Object.values || (obj => Object.keys(obj).map(key => obj[key]));
+
+**Finally...**
+
+Be aware of the browsers/versions you need to support. The above are correct where the methods or language features are implemented. For example, support for ECMAScript 2015 was switched off by default in V8 until recently, which powered browsers such as Chrome. Features from ECMAScript 2015 should be be avoided until the browsers you intend to support implement the features that you need. If you use [babel](//babeljs.io/) to compile your code to ECMAScript 5, then you have access to all the features in this answer.
