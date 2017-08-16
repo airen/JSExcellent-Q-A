@@ -1615,3 +1615,148 @@ If you want to avoid shimming when a native `Object.values` exists, then you can
 **Finally...**
 
 Be aware of the browsers/versions you need to support. The above are correct where the methods or language features are implemented. For example, support for ECMAScript 2015 was switched off by default in V8 until recently, which powered browsers such as Chrome. Features from ECMAScript 2015 should be be avoided until the browsers you intend to support implement the features that you need. If you use [babel](//babeljs.io/) to compile your code to ECMAScript 5, then you have access to all the features in this answer.
+
+### [JavaScript array difference](//stackoverflow.com/questions/1187518/javascript-array-difference)
+
+**Q:**
+
+Is there a way to return the difference between two arrays in JavaScript?
+
+For example:
+
+    var a1 = ['a', 'b'];
+    var a2 = ['a', 'b', 'c', 'd'];
+
+    // need ["c", "d"]
+
+Any advice greatly appreciated.
+
+**A:**
+
+    Array.prototype.diff = function(a) {
+        return this.filter(function(i) {return a.indexOf(i) < 0;});
+    };
+
+    ////////////////////  
+    // Examples  
+    ////////////////////
+
+    [1,2,3,4,5,6].diff( [3,4,5] );  
+    // => [1, 2, 6]
+
+    ["test1", "test2","test3","test4","test5","test6"].diff(["test1","test2","test3","test4"]);  
+    // => ["test5", "test6"]
+
+> Note `indexOf` and `filter` are not available in ie before ie9.
+
+There is a better way using ES6:
+
+    let difference = arr1.filter(x => arr2.indexOf(x) == -1);
+
+![JavaScript array difference](./images/mEtro.png)
+
+For `[1,2,3] [2,3]` it will yield `[1]`. On the other hand, for `[1,2,3] [2,3,5]` will return the same thing.
+
+For a **symmetric difference**, you can do:
+
+    let difference = arr1
+                    .filter(x => arr2.indexOf(x) == -1)
+                    .concat(arr2.filter(x => arr1.indexOf(x) == -1));
+
+![JavaScript array difference](./images/zb1hW.png)
+
+This way, you will get an array containing all the elements of `arr1` that are not in `arr2` and vice-versa
+
+### [Are loops really faster in reverse?](//stackoverflow.com/questions/1340589/are-loops-really-faster-in-reverse)
+
+**Q:**
+
+I've heard this quite a few times. Are JavaScript loops really faster when counting backward? If so, why? I've seen a few test suite examples showing that reversed loops are quicker, but I can't find any explanation as to why!
+
+I'm assuming it's because the loop no longer has to evaluate a property each time it checks to see if it's finished and it just checks against the final numeric value.
+
+I.e.
+
+    for (var i = count - 1; i >= 0; i--){
+    // count is only evaluated once and then the comparison is always on 0.
+    }
+
+**A:**
+
+It's not that `i--` is faster than `i++`. Actually, they're both equally fast.
+
+What takes time in ascending loops is evaluating, for each `i`, the size of your array. In this loop:
+
+    for(var i = array.length; i--;)
+
+You evaluate `.length` only once, when you declare `i`, whereas for this loop
+
+    for(var i = 1; i <= array.length; i++)
+
+you evaluate `.length` each time you increment `i`, when you check if `i <= array.length`.
+
+In most cases you **shouldn't even worry about this kind of optimization**.
+
+### [How to check whether a string contains a substring in JavaScript?](//stackoverflow.com/questions/1789945/how-to-check-whether-a-string-contains-a-substring-in-javascript)
+
+**Q:**
+
+Usually I would expect a `String.contains()` method but there doesn't seem to be one. What is a reasonable way to check for this?
+
+**A:**
+
+Here is a list of current possibilities:
+
+**1. indexOf**
+
+    var string = "foo",
+        substring = "oo";
+    string.indexOf(substring) !== -1;
+
+[`String.prototype.indexOf`](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf) returns the position of the string in the other string. If not found, it will return `-1`.
+
+**2. (ES6) includes** - [go to answer](//stackoverflow.com/a/14193950/2689455), or [this answer](//stackoverflow.com/a/2385801/2689455)
+
+    var string = "foo",
+        substring = "oo";
+    string.includes(substring);
+
+**3. search** - [go to answer](//stackoverflow.com/a/2385801/2689455)
+
+    var string = "foo",
+        expr = /oo/;
+    string.search(expr);
+
+**4. lodash includes** - [go to answer](//stackoverflow.com/a/20575032/2689455)
+
+    var string = "foo",
+        substring = "oo";
+    _.includes(string, substring);
+
+**5. RegExp** - [go to answer](//stackoverflow.com/a/1789980/2689455)
+
+    var string = "foo",
+        expr = /oo/;  // no quotes here
+    expr.test(string);
+
+**6. Match** - [go to answer](//stackoverflow.com/a/12652006/2689455)
+
+    var string = "foo",
+        expr = /oo/;
+    string.match(expr);
+
+[Performance tests](//jsben.ch/#/RVYk7) are showing that indexOf might be the best choice, if it comes to a point where speed matters.
+
+You can easily add a contains method to String with this statement:
+
+    String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
+
+> Note: see the comments below for a valid argument for not using this. My advice: use your own judgement.
+
+Alternatively:
+
+    if (typeof String.prototype.contains === 'undefined') { 
+        String.prototype.contains = function(it) { 
+            return this.indexOf(it) != -1; 
+        };
+    }
